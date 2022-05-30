@@ -109,8 +109,10 @@ unsigned char VirtualMachine::ALU(uint8_t opcode, char op1, char op2)
 		return op1 + op2;
 	case 1://sub
 		return op1 - op2;
-	case 3://and
+	case 2://and
 		return op1 & op2;
+	case 3://or
+		return op1 | op2;
 	case 4://not, ignores 2nd parameter
 		return ~op1;
 	case 5://xor
