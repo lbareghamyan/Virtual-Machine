@@ -18,22 +18,30 @@ void VirtualMachine::run()
 			a = code[i].op1;
 			code[i].opcode = code[i].opcode >> 7 & 0;
 		}
-		if ((code[i].opcode >> 6 & 1))
-		{
-			b = code[i].op2;
-			code[i].opcode = code[i].opcode >> 6 & 0;
-		}
-		if (code[i].op1 == InOutNum)//check if op1 is the input reg
+		else if (code[i].op1 == InOutNum)//check if op1 is the input reg
 		{
 			int k;
 			*m_in >> k;
 			a = k;
 		}
-		if (code[i].op2 == InOutNum)//check if op2 is the input reg
+		else if (code[i].op1 >= 0 && code[i].op1 <= REG_NUMBER)//if op1 is a register
+		{
+			a = m_reg[code[i].op1];
+		}
+		if ((code[i].opcode >> 6 & 1))
+		{
+			b = code[i].op2;
+			code[i].opcode = code[i].opcode >> 6 & 0;
+		}
+		else if (code[i].op2 == InOutNum)//check if op2 is the input reg
 		{
 			int k;
 			*m_in >> k;
 			b = k;
+		}
+		else if (code[i].op2 >= 0 && code[i].op2 <= REG_NUMBER)//if op2 is a register
+		{
+			b = m_reg[code[i].op2];
 		}
 		if (((code[i].opcode) >> 5) & 1)//check if 5th(consditional) bit is set
 		{
@@ -87,7 +95,7 @@ bool VirtualMachine::readFile(std::string filePath)
 	do {
 
 		binaryFile.read((char*)&temp, 4 * sizeof(uint8_t));
-		Instruction instruction{ temp[0],temp[1],temp[2],temp[3] };
+		Instruction instruction{ temp[3],temp[2],temp[1],temp[0] };
 		code.push_back(instruction); 
 
 	} while (binaryFile.good());

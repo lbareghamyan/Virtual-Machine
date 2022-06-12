@@ -17,7 +17,7 @@ public:
 	void print();
 	
 private:
-	static const int REG_NUMBER = 8;
+	static const int REG_NUMBER = 7;
 	static const int InOutNum = REG_NUMBER + 1; // input output register number
 
 	//8-bit registers
